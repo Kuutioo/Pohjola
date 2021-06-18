@@ -22,11 +22,17 @@ public class CarController : MonoBehaviour
 
     private float velocityVsUp = 0.0f;
 
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private GameObject gameManager;
+    private DisableCar disableCarScript;
+
+    private bool enterCar;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = GameObject.Find("Game Manager");
+        disableCarScript = gameManager.GetComponent<DisableCar>();
     }
 
     private void FixedUpdate()
@@ -116,6 +122,27 @@ public class CarController : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            Debug.Log("Monke");
+            Destroy(rb);
+            disableCarScript.canEnterCar = true;
+            
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            Debug.Log("No more monke");
+            disableCarScript.canEnterCar = false;
+            this.enabled = false;
+        }
     }
 
     public void SetInputVector(Vector2 inputVector)
