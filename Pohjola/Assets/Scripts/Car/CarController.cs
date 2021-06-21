@@ -22,11 +22,10 @@ public class CarController : MonoBehaviour
 
     private float velocityVsUp = 0.0f;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private GameObject gameManager;
     private DisableCar disableCarScript;
-
-    private bool enterCar;
+    public GameObject player;
 
     private void Awake()
     {
@@ -128,10 +127,8 @@ public class CarController : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            Debug.Log("Monke");
-            Destroy(rb);
+            Debug.Log("Player entered the trigger");
             disableCarScript.canEnterCar = true;
-            
         }
     }
 
@@ -139,7 +136,11 @@ public class CarController : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            Debug.Log("No more monke");
+            if (player.activeSelf == false)
+            {
+                return;
+            }
+            Debug.Log("Player left the trigger");
             disableCarScript.canEnterCar = false;
             this.enabled = false;
         }

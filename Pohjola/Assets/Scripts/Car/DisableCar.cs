@@ -11,9 +11,10 @@ public class DisableCar : MonoBehaviour
     public GameObject leftParticle;
     public GameObject rightParticle;
 
-    private Rigidbody2D rb;
+    public GameObject player;
 
     public bool canEnterCar = false;
+    public bool pressed = false;
 
     private void Awake()
     {
@@ -30,15 +31,28 @@ public class DisableCar : MonoBehaviour
     {
         if (canEnterCar && Input.GetKeyDown(KeyCode.F))
         {
-            car.GetComponent<CarController>().enabled = true;
+            car.GetComponent<CarController>().enabled = !car.GetComponent<CarController>().enabled;
 
-            rb = car.AddComponent<Rigidbody2D>();
-            rb.drag = 0;
-            rb.angularDrag = 0.1f;
-            rb.gravityScale = 0;
-            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-            rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
-            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            leftTrail.GetComponent<WheelTrailRendererHandler>().enabled = !leftTrail.GetComponent<WheelTrailRendererHandler>().enabled;
+            rightTrail.GetComponent<WheelTrailRendererHandler>().enabled = !rightTrail.GetComponent<WheelTrailRendererHandler>().enabled;
+
+            leftParticle.GetComponent<WheelParticleHandler>().enabled = !leftParticle.GetComponent<WheelParticleHandler>().enabled;
+            rightParticle.GetComponent<WheelParticleHandler>().enabled = !rightParticle.GetComponent<WheelParticleHandler>().enabled;
+
+
+            player.GetComponent<Rigidbody2D>().isKinematic = !player.GetComponent<Rigidbody2D>().isKinematic;
+            player.GetComponent<PlayerController>().enabled = !player.GetComponent<PlayerController>().enabled;
+            player.transform.parent = car.transform;
+            player.SetActive(false);
+
+            if (pressed && Input.GetKeyDown(KeyCode.F))
+            {
+                player.transform.parent = null;
+                pressed = false;
+                player.SetActive(true);
+                return;
+            }
+            pressed = true;
         }
     }
 }
