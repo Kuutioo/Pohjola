@@ -6,7 +6,7 @@ public class CarInputHandler : MonoBehaviour
 {
     // Original source: https://www.youtube.com/channel/UC-BN2PIJpO1p3NNrJHXJPsQ, Pretty Fly Games
 
-    CarController carController;
+    private CarController carController;
 
     private void Awake()
     {

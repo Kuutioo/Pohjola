@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Test Background
+    uniqueID: 2316124241
+    locked: 0
   - name: Skidmarks
     uniqueID: 1813608303
     locked: 0

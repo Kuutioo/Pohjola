@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WheelTrailRendererHandler : MonoBehaviour
 {
-    CarController carController;
-    TrailRenderer trailRenderer;
+    private CarController carController;
+    private TrailRenderer trailRenderer;
 
     private void Awake()
     {

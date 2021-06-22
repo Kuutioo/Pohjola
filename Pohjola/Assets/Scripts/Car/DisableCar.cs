@@ -1,55 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class DisableCar : MonoBehaviour
 {
-    public GameObject car;
+    private GameObject player;
 
-    public GameObject leftTrail;
-    public GameObject rightTrail;
-    public GameObject leftParticle;
-    public GameObject rightParticle;
+    public CinemachineVirtualCamera virtualCamera;
 
-    public GameObject player;
+    private CarController carController;
 
+    private WheelTrailRendererHandler[] wt;
+    private WheelParticleHandler[] wp;
+
+    [HideInInspector]
     public bool canEnterCar = false;
-    public bool pressed = false;
+    private bool pressed = false;
 
     private void Awake()
     {
-        car.GetComponent<CarController>().enabled = false;
+        player = GameObject.Find("Player");
 
-        leftTrail.GetComponent<WheelTrailRendererHandler>().enabled = false;
-        rightTrail.GetComponent<WheelTrailRendererHandler>().enabled = false;
+        carController = gameObject.GetComponent<CarController>();
+        carController.enabled = false;
 
-        leftParticle.GetComponent<WheelParticleHandler>().enabled = false;
-        rightParticle.GetComponent<WheelParticleHandler>().enabled = false;
+        wt = gameObject.GetComponentsInChildren<WheelTrailRendererHandler>();
+        wp = gameObject.GetComponentsInChildren<WheelParticleHandler>();
+
+        foreach (WheelTrailRendererHandler _wt in wt)
+        {
+            _wt.enabled = false;
+        }
+
+        foreach (WheelParticleHandler _wp in wp)
+        {
+            _wp.enabled = false;
+        }
     }
 
     private void Update()
     {
-        if (canEnterCar && Input.GetKeyDown(KeyCode.F))
+        if (canEnterCar && Input.GetKeyDown(KeyCode.F) && carController.velocityVsUp < 0.2f && carController.velocityVsUp > -0.2f)
         {
-            car.GetComponent<CarController>().enabled = !car.GetComponent<CarController>().enabled;
+            carController.enabled = !carController.enabled;
+            virtualCamera.m_Follow = gameObject.transform;
 
-            leftTrail.GetComponent<WheelTrailRendererHandler>().enabled = !leftTrail.GetComponent<WheelTrailRendererHandler>().enabled;
-            rightTrail.GetComponent<WheelTrailRendererHandler>().enabled = !rightTrail.GetComponent<WheelTrailRendererHandler>().enabled;
+            foreach (WheelTrailRendererHandler _wt in wt)
+            {
+                _wt.enabled = !_wt.enabled;
+            }
 
-            leftParticle.GetComponent<WheelParticleHandler>().enabled = !leftParticle.GetComponent<WheelParticleHandler>().enabled;
-            rightParticle.GetComponent<WheelParticleHandler>().enabled = !rightParticle.GetComponent<WheelParticleHandler>().enabled;
+            foreach (WheelParticleHandler _wp in wp)
+            {
+                _wp.enabled = !_wp.enabled;
+            }
 
-
-            player.GetComponent<Rigidbody2D>().isKinematic = !player.GetComponent<Rigidbody2D>().isKinematic;
+            player.GetComponent<Rigidbody2D>().isKinematic = true;
             player.GetComponent<PlayerController>().enabled = !player.GetComponent<PlayerController>().enabled;
-            player.transform.parent = car.transform;
+            player.transform.parent = gameObject.transform;
             player.SetActive(false);
 
             if (pressed && Input.GetKeyDown(KeyCode.F))
             {
                 player.transform.parent = null;
-                pressed = false;
+                virtualCamera.m_Follow = player.transform;
                 player.SetActive(true);
+                pressed = false;
                 return;
             }
             pressed = true;
