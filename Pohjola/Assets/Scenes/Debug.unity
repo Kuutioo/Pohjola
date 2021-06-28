@@ -671,14 +671,15 @@ GameObject:
   m_Component:
   - component: {fileID: 527304169}
   - component: {fileID: 527304168}
+  - component: {fileID: 527304165}
+  - component: {fileID: 527304170}
   - component: {fileID: 527304167}
   - component: {fileID: 527304166}
   - component: {fileID: 527304171}
-  - component: {fileID: 527304165}
-  - component: {fileID: 527304170}
+  - component: {fileID: 527304172}
   m_Layer: 0
   m_Name: Car
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -814,6 +815,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 648977766}
   canEnterCar: 0
+--- !u!114 &527304172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527304164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960706f045f1679459ace28327cf222a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &648977765
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +927,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   rotationSpeed: 400
-  animator: {fileID: 1274511271}
 --- !u!4 &721994004
 Transform:
   m_ObjectHideFlags: 0
@@ -5992,7 +6004,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a90a5830c0eafcf45967269d2373b353, type: 3}
+  m_Sprite: {fileID: 6920209119401886799, guid: cad75df211d377140896673d77f42d8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -23,6 +23,7 @@ public class DisableCar : MonoBehaviour
         player = GameObject.Find("Player");
 
         carController = gameObject.GetComponent<CarController>();
+
         carController.enabled = false;
 
         wt = gameObject.GetComponentsInChildren<WheelTrailRendererHandler>();

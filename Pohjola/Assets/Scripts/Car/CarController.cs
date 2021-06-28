@@ -10,8 +10,6 @@ public class CarController : MonoBehaviour
        Check these for additional info: https://en.wikipedia.org/wiki/Dot_product, https://docs.unity3d.com/ScriptReference/Vector2.Dot.html
     */
 
-    private const string PLAYER_NAME = "Player";
-
     [Header("Car Attributes:")]
     public float driftFactor = 0.95f;
     public float accelerationFactor = 30.0f;
@@ -26,14 +24,10 @@ public class CarController : MonoBehaviour
     public float velocityVsUp = 0.0f;
 
     private Rigidbody2D rb;
-    private DisableCar disableCarScript;
-    private GameObject player;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        disableCarScript = gameObject.GetComponent<DisableCar>();
-        player = GameObject.Find(PLAYER_NAME);
     }
 
     private void FixedUpdate()
@@ -122,31 +116,6 @@ public class CarController : MonoBehaviour
             return true;
 
         return false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == PLAYER_NAME)
-        {
-            Debug.Log("Player entered the trigger");
-            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            disableCarScript.canEnterCar = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == PLAYER_NAME)
-        {
-            if (player.activeSelf == false)
-            {
-                return;
-            }
-            Debug.Log("Player left the trigger");
-            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            disableCarScript.canEnterCar = false;
-            this.enabled = false;
-        }
     }
 
     public void SetInputVector(Vector2 inputVector)

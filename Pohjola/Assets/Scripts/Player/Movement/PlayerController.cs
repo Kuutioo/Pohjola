@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Setting animations with strings
+    public static readonly int walkingAnimID = Animator.StringToHash("IsWalking");
+
     [Header("Character Attributes:")]
     public float movementSpeed;
     public float rotationSpeed;
 
-    [Header("References:")]
-    public Animator animator;
+    private Animator animator;
+
+    private Vector2 movementDirection;
+
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     private void Update()
     {
@@ -19,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // Make a Vector2(0, 0)
-        Vector2 movementDirection = Vector2.zero;
+        movementDirection = Vector2.zero;
 
         // Apply x and y to the correct axis
         movementDirection.x = Input.GetAxis("Horizontal");
@@ -43,14 +52,19 @@ public class PlayerController : MonoBehaviour
             
         }
 
+        AnimateWalk();
+    }
+
+    private void AnimateWalk()
+    {
         // Animation stuff. Simple
-        if(movementDirection.x != 0 || movementDirection.y != 0)
+        if (movementDirection.x != 0 || movementDirection.y != 0)
         {
-            animator.SetBool("IsWalking", true);
+            animator.SetBool(walkingAnimID, true);
         }
         else
         {
-            animator.SetBool("IsWalking", false);
+            animator.SetBool(walkingAnimID, false);
         }
     }
 
