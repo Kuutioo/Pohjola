@@ -8,11 +8,19 @@ public class PickupDrink : MonoBehaviour
 
     private bool inTrigger = false;
 
+    private PlayerController playerController;
+
+    private void Awake()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && inTrigger)
         {
             gameObject.SetActive(false);
+            playerController.drinkType = DrinkType.Coffee;
         }
     }
 

@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     // Setting animations with strings
     public static readonly int walkingAnimID = Animator.StringToHash("IsWalking");
+    public static readonly int walkingCoffeeAnimID = Animator.StringToHash("IsWalkingCoffee");
+    public static readonly int hasCoffeeID = Animator.StringToHash("HasCoffee");
 
     [Header("Character Attributes:")]
     public float movementSpeed;
@@ -15,11 +17,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movementDirection;
 
-    private DrinkType drinkType;
+    //[HideInInspector]
+    public DrinkType drinkType = DrinkType.None;
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();;
     }
 
     private void Update()
@@ -54,7 +57,19 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        AnimateWalk();
+        if (drinkType == DrinkType.None)
+        {
+            AnimateWalk();
+        }
+        else
+        {
+            if (drinkType == DrinkType.Coffee)
+            {
+                animator.SetBool(hasCoffeeID, true);
+                AnimateCoffeeWalk();
+            }
+        }
+        
     }
 
     private void AnimateWalk()
@@ -67,6 +82,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool(walkingAnimID, false);
+        }
+    }
+
+    private void AnimateCoffeeWalk()
+    {
+        if (movementDirection.x != 0 || movementDirection.y != 0)
+        {
+            animator.SetBool(walkingCoffeeAnimID, true);
+        }
+        else
+        {
+            animator.SetBool(walkingCoffeeAnimID, false);
         }
     }
 }
