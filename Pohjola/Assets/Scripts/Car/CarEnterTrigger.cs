@@ -33,7 +33,6 @@ public class CarEnterTrigger : MonoBehaviour
                 return;
             }
             Debug.Log("Player left the trigger");
-            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             disableCarScript.canEnterCar = false;
             this.enabled = false;
         }

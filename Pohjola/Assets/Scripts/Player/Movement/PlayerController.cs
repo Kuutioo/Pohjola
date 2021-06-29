@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movementDirection;
 
+    private DrinkType drinkType;
+
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -67,6 +69,4 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(walkingAnimID, false);
         }
     }
-
-
 }
