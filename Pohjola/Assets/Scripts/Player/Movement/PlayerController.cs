@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public static readonly int walkingAnimID = Animator.StringToHash("IsWalking");
     public static readonly int walkingCoffeeAnimID = Animator.StringToHash("IsWalkingCoffee");
     public static readonly int hasCoffeeID = Animator.StringToHash("HasCoffee");
+    public static readonly int isDrinkingCoffeeID = Animator.StringToHash("IsDrinkingCoffee");
+    public static readonly int isDrinkingCoffeeWalkingID = Animator.StringToHash("IsDrinkingCoffeeWalking");
 
     [Header("Character Attributes:")]
     public float movementSpeed;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+
+        
     }
 
     private void Move()
@@ -67,6 +71,7 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetBool(hasCoffeeID, true);
                 AnimateCoffeeWalk();
+                AnimateDrinkCoffee();
             }
         }
         
@@ -94,6 +99,32 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool(walkingCoffeeAnimID, false);
+        }
+    }
+
+    private void AnimateDrinkCoffee()
+    {
+        if (movementDirection.x != 0 || movementDirection.y != 0)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                animator.SetBool(isDrinkingCoffeeWalkingID, true);
+            }
+            else
+            {
+                animator.SetBool(isDrinkingCoffeeWalkingID, false);
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButton(0))
+            {
+                animator.SetBool(isDrinkingCoffeeID, true);
+            }
+            else
+            {
+                animator.SetBool(isDrinkingCoffeeID, false);
+            }
         }
     }
 }
