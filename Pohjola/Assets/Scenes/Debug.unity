@@ -6212,6 +6212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d30cad0bf6ae4442a69fcea28946dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drinkType: 1
 --- !u!61 &1374286186
 BoxCollider2D:
   m_ObjectHideFlags: 0
