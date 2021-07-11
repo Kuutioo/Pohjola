@@ -10,7 +10,7 @@ public class PickupDrink : MonoBehaviour
 
     private PlayerController playerController;
 
-    public DrinkType drinkType;
+    public Drink drink;
 
     private void Awake()
     {
@@ -22,19 +22,15 @@ public class PickupDrink : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && inTrigger)
         {
             gameObject.SetActive(false);
-            CheckDrink();
+            CheckDrink(drink.drinkType);
         }
     }
 
-    private void CheckDrink()
+    private void CheckDrink(DrinkType dt)
     {
-        if (drinkType == DrinkType.Coffee)
+        if (dt == drink.drinkType)
         {
-            playerController.drinkType = DrinkType.Coffee;
-        }
-        else if (drinkType == DrinkType.Beer)
-        {
-            playerController.drinkType = DrinkType.Beer;
+            playerController.currentDrinkType = dt;
         }
     }
 
