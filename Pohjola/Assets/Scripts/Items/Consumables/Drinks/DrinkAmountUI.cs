@@ -7,6 +7,11 @@ public class DrinkAmountUI : MonoBehaviour
 {
     public Slider slider;
 
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void SetMaxDrinkAmount(float amount)
     {
         slider.maxValue = amount;

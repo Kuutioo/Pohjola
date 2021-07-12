@@ -7,16 +7,21 @@ public class PlayerAnimate : MonoBehaviour
     private string currentState;
 
     private PlayerController playerController;
+    private Drink[] drink;
     private Animator animator;
 
-    public Drink drink;
+    private GameObject drinkItem;
 
     private PlayerAnimations playerAnimations = PlayerAnimations.None;
 
     private void Awake()
     {
-        playerController = GetComponentInChildren<PlayerController>();
+        playerController = GetComponent<PlayerController>();
         animator = GetComponentInChildren<Animator>();
+
+        drink = FindObjectsOfType<Drink>();
+        drinkItem = GameObject.Find("Drink_Item");
+        
     }
 
     public void AnimateWalk()
@@ -35,13 +40,18 @@ public class PlayerAnimate : MonoBehaviour
 
     public void AnimateCoffee()
     {
+        foreach (var item in drink)
+        {
+            Debug.Log(item);
+        }
+
         if (playerController.movementDirection.x != 0 || playerController.movementDirection.y != 0)
         {
             if (Input.GetMouseButton(0))
             {
                 playerAnimations = PlayerAnimations.Player_Drink_Coffee_Walk_Placeholder;
                 ChangeAnimationState(playerAnimations.ToString());
-                drink.ChangeDrinkAmount(0.0001f);
+                drink[0].ChangeDrinkAmount(0.0001f);
             }
 
             else
@@ -56,7 +66,7 @@ public class PlayerAnimate : MonoBehaviour
             {
                 playerAnimations = PlayerAnimations.Player_Drink_Coffee_Idle_Placeholder;
                 ChangeAnimationState(playerAnimations.ToString());
-                drink.ChangeDrinkAmount(0.0001f);
+                drink[0].ChangeDrinkAmount(0.0001f);
             }
             else
             {
@@ -65,9 +75,10 @@ public class PlayerAnimate : MonoBehaviour
             }
         }
 
-        if (drink.currentDrinkVolume <= 0.0f)
+        if (drink[0].currentDrinkVolume <= 0.0f)
         {
             playerController.currentDrinkType = DrinkType.None;
+            drinkItem.SetActive(false);
         }
     }
 
