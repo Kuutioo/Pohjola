@@ -2,28 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : PlayerStateMachine
 {
     [Header("Player Movement Attributes:")]
     public float movementSpeed;
     public float rotationSpeed;
 
-    private PlayerAnimate playerAnimate;
+    internal Vector2 movementDirection;
 
-    [HideInInspector]
-    public Vector2 movementDirection;
-
-    [HideInInspector]
     public DrinkType currentDrinkType = DrinkType.None;
+    public Drink currentDrink;
+
+    private string currentState;
+
+    internal Drink[] drink;
+    private Animator animator;
+
+    internal GameObject drinkItem;
+
+    internal PlayerAnimations playerAnimations = PlayerAnimations.None;
 
     private void Awake()
     {
-        playerAnimate = GetComponent<PlayerAnimate>();
+        animator = GetComponentInChildren<Animator>();
+
+        drink = FindObjectsOfType<Drink>();
+        drinkItem = GameObject.Find("Drink_Item");
+
+        SetState(new PlayerIdle(this));
     }
 
     private void Update()
     {
-        Move(); 
+        Move();
+        Debug.Log(playerState);
     }
 
     private void Move()
@@ -50,24 +62,32 @@ public class PlayerController : MonoBehaviour
             // Fancy rotation stuff. Don't know how it works but it does. Lets just leave it there :)
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
         }
 
-        Animate();
-    }
-
-    private void Animate()
-    {
         if (currentDrinkType == DrinkType.None)
         {
-            playerAnimate.AnimateWalk();
+            SetState(new PlayerIdle(this));
         }
         else
         {
             if (currentDrinkType == DrinkType.Coffee)
             {
-                playerAnimate.AnimateCoffee();
+                SetState(new PlayerCoffee(this));
             }
         }
+
+        playerState.ChangeState();
+    }
+
+    public void ChangeAnimationState(string newState)
+    {
+        // Stop the same animation from interrupting itself
+        if (currentState == newState) return;
+
+        // Play the animation
+        animator.Play(newState);
+
+        // Reassign the current state
+        currentState = newState;
     }
 }

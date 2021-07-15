@@ -26,7 +26,8 @@ public class PickupDrink : MonoBehaviour
         {
             drinkItem.gameObject.SetActive(true);
             gameObject.SetActive(false);
-            CheckDrink(drink.drinkType);
+            playerController.currentDrinkType = drink.drinkType;
+            playerController.currentDrink = drink;
         }
     }
 
