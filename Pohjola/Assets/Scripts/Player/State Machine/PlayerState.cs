@@ -1,3 +1,5 @@
+using System;
+using UnityEngine;
 public abstract class PlayerState
 {
     protected PlayerController playerController;

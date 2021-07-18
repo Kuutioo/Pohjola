@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : PlayerStateMachine
@@ -35,7 +33,6 @@ public class PlayerController : PlayerStateMachine
     private void Update()
     {
         Move();
-        Debug.Log(playerState);
     }
 
     private void Move()

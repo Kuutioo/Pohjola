@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using System.Collections;
+using System;
 using UnityEngine;
 
 public class PlayerCoffee : PlayerState
 {
+    private float reduceDrinkAmount = 0.0001f;
+
     public PlayerCoffee(PlayerController _playerController) : base(_playerController)
     {
     }
@@ -16,7 +17,8 @@ public class PlayerCoffee : PlayerState
             {
                 playerController.playerAnimations = PlayerAnimations.Player_Drink_Coffee_Walk_Placeholder;
                 playerController.ChangeAnimationState(playerController.playerAnimations.ToString());
-                playerController.currentDrink.ChangeDrinkAmount(0.0001f);
+
+                playerController.currentDrink.ChangeDrinkAmount(reduceDrinkAmount);
             }
 
             else
@@ -31,7 +33,8 @@ public class PlayerCoffee : PlayerState
             {
                 playerController.playerAnimations = PlayerAnimations.Player_Drink_Coffee_Idle_Placeholder;
                 playerController.ChangeAnimationState(playerController.playerAnimations.ToString());
-                playerController.currentDrink.ChangeDrinkAmount(0.0001f);
+
+                playerController.currentDrink.ChangeDrinkAmount(reduceDrinkAmount);
 
             }
             else
@@ -46,10 +49,7 @@ public class PlayerCoffee : PlayerState
             playerController.currentDrinkType = DrinkType.None;
             playerController.drinkItem.SetActive(false);
             playerController.SetState(new PlayerIdle(playerController));
-
         }
         return;
     }
-
-
 }
