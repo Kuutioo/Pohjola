@@ -1,30 +1,35 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : PlayerStateMachine
 {
+    // Movement Attributes
     [Header("Player Movement Attributes:")]
     public float movementSpeed;
     public float rotationSpeed;
 
+    // Movement
     internal Vector2 movementDirection;
 
+    // Drinks
     public DrinkType currentDrinkType = DrinkType.None;
     public Drink currentDrink;
-
-    private string currentState;
-
-    internal Drink[] drink;
-    private Animator animator;
-
     internal GameObject drinkItem;
 
+    // State
+    private string currentState;
+
+    // Animator
+    private Animator animator;
     internal PlayerAnimations playerAnimations = PlayerAnimations.None;
+
+    // Events
+    public event EventHandler OnDrinkEmpty;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
 
-        drink = FindObjectsOfType<Drink>();
         drinkItem = GameObject.Find("Drink_Item");
 
         SetState(new PlayerIdle(this));
@@ -61,6 +66,26 @@ public class PlayerController : PlayerStateMachine
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
 
+        SetCurrentState();
+        CheckCurrentDrinkVolume();
+
+        playerState.ChangeState();
+    }
+
+    private void CheckCurrentDrinkVolume()
+    {
+        if (currentDrink != null)
+        {
+            if (currentDrink.currentDrinkVolume <= 0.0f)
+            {
+                OnDrinkEmpty?.Invoke(this, EventArgs.Empty);
+                currentDrink = null;
+            }
+        }
+    }
+
+    private void SetCurrentState()
+    {
         if (currentDrinkType == DrinkType.None)
         {
             SetState(new PlayerIdle(this));
@@ -72,8 +97,6 @@ public class PlayerController : PlayerStateMachine
                 SetState(new PlayerCoffee(this));
             }
         }
-
-        playerState.ChangeState();
     }
 
     public void ChangeAnimationState(string newState)
